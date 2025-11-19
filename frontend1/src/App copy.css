@@ -1,0 +1,30 @@
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #bbb;
+  min-height: 100vh;
+  color: aquamarine
+}
+
+nav {
+  background-color: #000;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  margin: 1;
+  padding: 1;
+
+}
+
+nav ul li {
+  text-decoration: none;
+}

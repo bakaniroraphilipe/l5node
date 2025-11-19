@@ -1,0 +1,11 @@
+const express = require('express')
+const cors = require('cors')
+const bodyParse = require('body-parser')
+const app = express()
+app.use(cors())
+app.use(bodyParse.json())
+const useRoute = require('./routes/users')
+app.use('/users', useRoute)
+app.listen(5000, () => {
+    console.log('Server running on http://localhost:5000')
+})

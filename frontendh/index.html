@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OurWebinfo Frontend</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>STU LTD User Management</h1>
+
+    <h2>Add User</h2>
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="addUser()">Add User</button>
+
+    <h2>Users List</h2>
+    <ul id="usersList"></ul>
+
+    <script>
+        const apiUrl = "http://localhost:5000/users";
+
+        function fetchUsers() {
+            axios.get(apiUrl)
+                .then(res => {
+                    const usersList = document.getElementById("usersList");
+                    usersList.innerHTML = "";
+                    res.data.forEach(user => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `${user.id} - ${user.name} (${user.email}) 
+                        <button onclick="updateUser(${user.id})">Update</button>
+                        <button onclick="deleteUser(${user.id})">Delete</button>`;
+                        usersList.appendChild(li);
+                    });
+                })
+                .catch(err => console.error(err));
+        }
+
+        function addUser() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            axios.post(apiUrl, { name, email })
+                .then(res => {
+                    alert(res.data.message);
+                    fetchUsers();
+                })
+                .catch(err => console.error(err));
+        }
+
+        function updateUser(id) {
+            const name = prompt("Enter new name:");
+            const email = prompt("Enter new email:");
+            if (name && email) {
+                axios.put(`${apiUrl}/${id}`, { name, email })
+                    .then(res => { alert(res.data.message); fetchUsers(); })
+                    .catch(err => console.error(err));
+            }
+        }
+
+        function deleteUser(id) {
+            if (confirm("Are you sure?")) {
+                axios.delete(`${apiUrl}/${id}`)
+                    .then(res => { alert(res.data.message); fetchUsers(); })
+                    .catch(err => console.error(err));
+            }
+        }
+
+        // Load users on page load
+        fetchUsers();
+    </script>
+</body>
+
+</html>
